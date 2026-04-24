@@ -1,0 +1,32 @@
+.button {
+  display: inline-block;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.primary {
+  background-color: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+.primary:hover {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.secondary {
+  background-color: transparent;
+  color: #2563eb;
+  border-color: #2563eb;
+}
+
+.secondary:hover {
+  background-color: #2563eb;
+  color: #fff;
+}
