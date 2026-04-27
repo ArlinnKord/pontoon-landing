@@ -5,17 +5,24 @@ interface ButtonProps {
   variant?: "primary" | "secondary";
   children: ReactNode;
   onClick?: () => void;
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 export default function Button({
   variant = "primary",
   children,
   onClick,
+  disabled = false,
+  type = "button",
 }: ButtonProps) {
-  const className = `${styles.button} ${styles[variant]}`;
-
   return (
-    <button className={className} onClick={onClick}>
+    <button
+      className={`${styles.button} ${styles[variant]}`}
+      onClick={onClick}
+      disabled={disabled}
+      type={type}
+    >
       {children}
     </button>
   );
