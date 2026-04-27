@@ -35,7 +35,16 @@ const cards: EquipmentCard[] = [
     description: "Буксировка барж и составов",
     images: ["/images/service_images/tolkach/1.jpg"],
   },
-  { title: "Земснаряд", description: "Для дноуглубительных работ", images: [] },
+  {
+    title: "Земснаряд",
+    description: "Для дноуглубительных работ",
+    images: [
+      "/images/service_images/zemsnaryad/main.PNG",
+      "/images/service_images/zemsnaryad/3.PNG",
+      "/images/service_images/zemsnaryad/4.PNG",
+      "/images/service_images/zemsnaryad/5.PNG",
+    ],
+  },
   { title: "Плавкран", description: "Подъёмные работы на воде", images: [] },
   { title: "Паром", description: "Переправа автотранспорта и людей", images: [] },
   {
