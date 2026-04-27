@@ -61,12 +61,7 @@ const cards: EquipmentCard[] = [
     title: "Платформа под экскаватор",
     description: "Рабочее место для спецтехники на воде",
     images: [],
-  },
-  {
-    title: "Проект Новосибирск",
-    description: "Пассажирское судно",
-    images: [],
-  },
+  },  
 ];
 
 export default function Services() {

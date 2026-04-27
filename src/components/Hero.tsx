@@ -3,17 +3,23 @@ import Button from "./Button";
 import styles from "./Hero.module.css";
 
 export default function Hero() {
+  const scrollToContacts = () => {
+    const el = document.getElementById("contacts");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section className={styles.hero}>
       <Container>
         <div className={styles.inner}>
           <h1 className={styles.title}>
-            Понтонные причалы и платформы под ключ
+            Производство судов технического флота
           </h1>
           <p className={styles.subtitle}>
-            Собственное производство. Установка за 5 дней
+            Собственное проектирование. Поставка под ключ. Работаем по всей
+            России
           </p>
-          <Button>Рассчитать проект</Button>
+          <Button onClick={scrollToContacts}>Связаться с нами</Button>
         </div>
       </Container>
     </section>
