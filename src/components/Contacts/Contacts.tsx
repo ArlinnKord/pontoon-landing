@@ -5,7 +5,7 @@ import { useForm, ValidationError } from "@formspree/react";
 import styles from "./Contacts.module.css";
 
 export default function Contacts() {
-  const [state, handleSubmit] = useForm("xdayvvgl");
+  const [state, handleSubmit] = useForm(import.meta.env.VITE_FORMSPREE_KEY);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
