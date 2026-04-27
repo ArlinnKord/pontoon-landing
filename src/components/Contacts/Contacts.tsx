@@ -55,19 +55,36 @@ export default function Contacts() {
           <div className={styles.info}>
             <div className={styles.infoItem}>
               <span className={styles.infoLabel}>Телефон</span>
-              <p className={styles.infoValue}>+7 (XXX) XXX-XX-XX</p>
+              <p className={styles.infoValue}>
+                <a href="tel:+79332902299" className={styles.link}>
+                  +7 (933) 290-22-99
+                </a>
+              </p>
             </div>
             <div className={styles.infoItem}>
               <span className={styles.infoLabel}>Email</span>
-              <p className={styles.infoValue}>info@pontoon-company.ru</p>
+              <p className={styles.infoValue}>
+                <a href="mailto:sales@magictechflot.ru" className={styles.link}>
+                  sales@magictechflot.ru
+                </a>
+              </p>
             </div>
             <div className={styles.infoItem}>
               <span className={styles.infoLabel}>Адрес</span>
               <p className={styles.infoValue}>
-                Московская область, г. Мытищи, ул. Строителей, 10
+                МО, Истринский р-н, посёлок Первомайский, д.17 Территория
+                Новоиерусалимского кирпичного завода
               </p>
             </div>
-            <div className={styles.map}>Здесь будет карта Яндекса</div>
+            <div className={styles.map}>
+              <iframe
+                src="https://yandex.ru/map-widget/v1/?pt=36.793576,55.913007&z=16"
+                width="100%"
+                height="100%"
+                style={{ border: "none", borderRadius: "12px" }}
+                title="Карта проезда"
+              />
+            </div>
           </div>
         </div>
       </Container>

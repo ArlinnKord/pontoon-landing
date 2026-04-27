@@ -30,8 +30,12 @@ export default function Footer() {
           </div>
           <div>
             <h3 className={styles.columnTitle}>Контакты</h3>
-            <p className={styles.contactItem}>+7 (XXX) XXX-XX-XX</p>
-            <p className={styles.contactItem}>info@pontoon-company.ru</p>
+            <a href="tel:+79332902299" className={styles.contactItem}>
+              +7 (933) 290-22-99
+            </a>
+            <a href="mailto:sales@magictechflot.ru" className={styles.contactItem}>
+              sales@magictechflot.ru
+            </a>
           </div>
         </div>
         <hr className={styles.divider} />
