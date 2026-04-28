@@ -1,68 +1,110 @@
-import express from "express";
-import nodemailer from "nodemailer";
+import http from "http";
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const app = express();
-console.log("Booting server.js...");
-console.log("CWD:", process.cwd());
-console.log("PORT:", process.env.PORT);
 const PORT = process.env.PORT || 8080;
 
-// парсинг JSON и form-data
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const distIndex = path.join(__dirname, "dist", "index.html");
 
-// healthcheck для Timeweb
-app.get("/health", (req, res) => {
-  res.status(200).send("OK");
-});
-
-// раздача статики (собранный сайт)
-app.use(express.static(path.join(__dirname, "dist")));
-
-// API отправки письма
-app.post("/api/send-email", async (req, res) => {
-  const { name, phone } = req.body;
-
-  if (!name || !phone) {
-    return res.status(400).json({ message: "Заполните имя и телефон" });
+const server = http.createServer((req, res) => {
+  // healthcheck
+  if (req.url === "/health" && req.method === "GET") {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    return res.end("OK");
   }
 
-  const transporter = nodemailer.createTransport({
-    host: "ssl://smtp.reg.ru",
-    port: 465,
-    secure: true,
-    auth: {
-      user: "sales@magictechflot.ru",
-      pass: process.env.EMAIL_PASSWORD || "",
-    },
-  });
+  // API отправки письма
+  if (req.url === "/api/send-email" && req.method === "POST") {
+    let body = "";
+    req.on("data", (chunk) => (body += chunk));
+    req.on("end", () => {
+      const { name, phone } = JSON.parse(body);
+      if (!name || !phone) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        return res.end(JSON.stringify({ message: "Заполните имя и телефон" }));
+      }
 
-  try {
-    await transporter.sendMail({
-      from: "sales@magictechflot.ru",
-      to: "sales@magictechflot.ru",
-      subject: "Новая заявка с лендинга",
-      html: `
-        <h2>Новая заявка</h2>
-        <p><strong>Имя:</strong> ${name}</p>
-        <p><strong>Телефон:</strong> ${phone}</p>
-      `,
+      // nodemailer — пробуем импорт по требованию
+      import("nodemailer").then((nodemailer) => {
+        const transporter = nodemailer.createTransport({
+          host: "ssl://smtp.reg.ru",
+          port: 465,
+          secure: true,
+          auth: {
+            user: "sales@magictechflot.ru",
+            pass: process.env.EMAIL_PASSWORD || "",
+          },
+        });
+
+        transporter
+          .sendMail({
+            from: "sales@magictechflot.ru",
+            to: "sales@magictechflot.ru",
+            subject: "Новая заявка с лендинга",
+            html: `<h2>Новая заявка</h2><p><strong>Имя:</strong> ${name}</p><p><strong>Телефон:</strong> ${phone}</p>`,
+          })
+          .then(() => {
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ message: "Письмо отправлено" }));
+          })
+          .catch((err) => {
+            console.error("Send error:", err);
+            res.writeHead(500, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ message: "Ошибка отправки" }));
+          });
+      });
     });
-    res.json({ message: "Письмо отправлено" });
-  } catch (err) {
-    console.error("Send error:", err);
-    res.status(500).json({ message: "Ошибка отправки" });
+    return;
   }
+
+  // статика
+  const filePath = path.join(
+    __dirname,
+    "dist",
+    req.url === "/" ? "index.html" : req.url
+  );
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      // SPA fallback
+      fs.readFile(distIndex, (err2, data2) => {
+        if (err2) {
+          res.writeHead(500);
+          return res.end("Internal error");
+        }
+        const ext = path.extname(req.url);
+        const mime = {
+          ".html": "text/html",
+          ".js": "text/javascript",
+          ".css": "text/css",
+          ".png": "image/png",
+          ".jpg": "image/jpeg",
+          ".svg": "image/svg+xml",
+          ".ico": "image/x-icon",
+        };
+        res.writeHead(200, {
+          "Content-Type": mime[ext] || "text/html",
+        });
+        res.end(data2);
+      });
+    } else {
+      const ext = path.extname(req.url);
+      const mime = {
+        ".html": "text/html",
+        ".js": "text/javascript",
+        ".css": "text/css",
+        ".png": "image/png",
+        ".jpg": "image/jpeg",
+        ".svg": "image/svg+xml",
+        ".ico": "image/x-icon",
+      };
+      res.writeHead(200, { "Content-Type": mime[ext] || "text/html" });
+      res.end(data);
+    }
+  });
 });
 
-// все остальные пути — отдаём index.html (SPA)
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
-
-app.listen(PORT, "0.0.0.0", () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT} (0.0.0.0)`);
 });
