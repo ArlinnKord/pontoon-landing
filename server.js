@@ -34,5 +34,9 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`✅ Server on port ${PORT}`);
+  console.log(`Server started on port ${PORT}`);
+});
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught exception:", err);
+  process.exit(1);
 });
