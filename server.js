@@ -2,6 +2,7 @@ import http from "http";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import nodemailer from "nodemailer";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 8080;
@@ -43,22 +44,22 @@ const server = http.createServer(async (req, res) => {
   if (req.url === "/api/send-email" && req.method === "POST") {
     try {
       const body = await parseBody(req);
-      const { createTransport } = await import("nodemailer");
-      // Пароль от почтового ящика на reg.ru — в переменной EMAIL_PASSWORD
-      const transporter = createTransport({
+      
+      // Настройки SMTP для Reg.ru (правильные!)
+      const transporter = nodemailer.createTransport({
         host: "mail.hosting.reg.ru",
-        port: 587,
-        secure: false,
-        requireTLS: true,
+        port: 465,
+        secure: true,
         auth: {
           user: "sales@magictechflot.ru",
           pass: process.env.EMAIL_PASSWORD,
         },
       });
+
       await transporter.sendMail({
-        from: `"${body.name || "Аноним"}" <sales@magictechflot.ru>`,
+        from: "sales@magictechflot.ru",
         to: "sales@magictechflot.ru",
-        subject: `Сообщение от ${body.name || "Аноним"}`,
+        subject: `Новая заявка с сайта от ${body.name || "Аноним"}`,
         html: `
           <h2>Новое обращение в MagicTechFlot</h2>
           <p><strong>Имя:</strong> ${body.name || "Не указано"}</p>
@@ -67,12 +68,13 @@ const server = http.createServer(async (req, res) => {
           <p><strong>Сообщение:</strong> ${body.message || "Пусто"}</p>
         `,
       });
+
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ success: true }));
+      res.end(JSON.stringify({ success: true, message: "Письмо отправлено" }));
     } catch (err) {
       console.error("Email error:", err);
       res.writeHead(500, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: "Ошибка отправки" }));
+      res.end(JSON.stringify({ error: err.message || "Ошибка отправки письма" }));
     }
     return;
   }
@@ -97,5 +99,6 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server started on port ${PORT}`);
+  console.log(`✅ Сервер запущен на порту ${PORT}`);
+  console.log(`   Healthcheck: http://localhost:${PORT}/health`);
 });
