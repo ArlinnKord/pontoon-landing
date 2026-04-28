@@ -1,11 +1,10 @@
 import { useState } from "react";
 import Container from "../Container";
 import Button from "../Button";
-import { useForm, ValidationError } from "@formspree/react";
 import styles from "./Contacts.module.css";
 
 export default function Contacts() {
-  const [state, handleSubmit] = useForm(import.meta.env.VITE_FORMSPREE_KEY);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -17,6 +16,28 @@ export default function Contacts() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setFormData({ name: "", phone: "", email: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
     <section className={styles.section} id="contacts">
       <Container>
@@ -25,16 +46,13 @@ export default function Contacts() {
           Оставьте заявку, и мы ответим в течение часа
         </p>
         <div className={styles.grid}>
-          {state.succeeded ? (
+          {status === "success" ? (
             <div className={styles.successMessage}>
               <h3>Спасибо за заявку!</h3>
               <p>Мы свяжемся с вами в ближайшее время.</p>
             </div>
           ) : (
             <form className={styles.form} onSubmit={handleSubmit}>
-              {/* Скрытое поле для Reply-To */}
-              <input type="hidden" name="_replyto" value={formData.email} />
-
               <div className={styles.field}>
                 <label className={styles.label} htmlFor="name">
                   Имя
@@ -49,7 +67,6 @@ export default function Contacts() {
                   placeholder="Ваше имя"
                   required
                 />
-                <ValidationError field="name" prefix="Имя" errors={state.errors} />
               </div>
 
               <div className={styles.field}>
@@ -64,8 +81,8 @@ export default function Contacts() {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+7 (XXX) XXX-XX-XX"
+                  required
                 />
-                <ValidationError field="phone" prefix="Телефон" errors={state.errors} />
               </div>
 
               <div className={styles.field}>
@@ -82,7 +99,6 @@ export default function Contacts() {
                   placeholder="ivan@example.com"
                   required
                 />
-                <ValidationError field="email" prefix="Email" errors={state.errors} />
               </div>
 
               <div className={styles.field}>
@@ -97,12 +113,17 @@ export default function Contacts() {
                   onChange={handleChange}
                   placeholder="Ваше сообщение"
                 />
-                <ValidationError field="message" prefix="Сообщение" errors={state.errors} />
               </div>
 
-              <Button variant="primary" type="submit" disabled={state.submitting}>
-                {state.submitting ? "Отправка..." : "Отправить заявку"}
+              <Button variant="primary" type="submit" disabled={status === "loading"}>
+                {status === "loading" ? "Отправка..." : "Отправить заявку"}
               </Button>
+
+              {status === "error" && (
+                <p className={styles.errorMessage}>
+                  Ошибка отправки. Попробуйте позже или позвоните нам.
+                </p>
+              )}
             </form>
           )}
           <div className={styles.info}>
