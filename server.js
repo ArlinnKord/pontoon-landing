@@ -46,8 +46,9 @@ const server = http.createServer(async (req, res) => {
       const { createTransport } = await import("nodemailer");
       const transporter = createTransport({
         host: "smtp.yandex.ru",
-        port: 465,
-        secure: true,
+        port: 587,
+        secure: false,
+        requireTLS: true,
         auth: {
           user: "magictechflot@yandex.ru",
           pass: process.env.EMAIL_PASSWORD,
