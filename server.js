@@ -11,6 +11,11 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// healthcheck для Timeweb
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 // раздача статики (собранный сайт)
 app.use(express.static(path.join(__dirname, "dist")));
 
@@ -28,7 +33,7 @@ app.post("/api/send-email", async (req, res) => {
     secure: true,
     auth: {
       user: "sales@magictechflot.ru",
-      pass: process.env.EMAIL_PASSWORD,
+      pass: process.env.EMAIL_PASSWORD || "",
     },
   });
 
