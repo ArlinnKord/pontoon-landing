@@ -44,12 +44,13 @@ const server = http.createServer(async (req, res) => {
   if (req.url === "/api/send-email" && req.method === "POST") {
     try {
       const body = await parseBody(req);
-      
+
       // Настройки SMTP для Reg.ru (правильные!)
       const transporter = nodemailer.createTransport({
         host: "mail.hosting.reg.ru",
-        port: 465,
-        secure: true,
+        port: 587,
+        secure: false,
+        requireTLS: true,
         auth: {
           user: "sales@magictechflot.ru",
           pass: process.env.EMAIL_PASSWORD,
@@ -74,13 +75,19 @@ const server = http.createServer(async (req, res) => {
     } catch (err) {
       console.error("Email error:", err);
       res.writeHead(500, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: err.message || "Ошибка отправки письма" }));
+      res.end(
+        JSON.stringify({ error: err.message || "Ошибка отправки письма" }),
+      );
     }
     return;
   }
 
   // статика
-  let filePath = path.join(__dirname, "dist", req.url === "/" ? "index.html" : req.url);
+  let filePath = path.join(
+    __dirname,
+    "dist",
+    req.url === "/" ? "index.html" : req.url,
+  );
   fs.readFile(filePath, (err, data) => {
     if (err) {
       res.writeHead(404);
