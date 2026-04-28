@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   // Настройки SMTP Reg.ru
-  const transporter = nodemailer.createTransporter({
+  const transporter = nodemailer.createTransport({
     host: 'mail.hosting.reg.ru',
     port: 465,
     secure: true,

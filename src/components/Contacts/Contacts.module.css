@@ -112,6 +112,51 @@
   margin-top: 8px;
 }
 
+.successMessage {
+  text-align: center;
+  padding: 60px 40px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+}
+
+.successMessage h3 {
+  font-size: 24px;
+  color: #166534;
+  margin: 0 0 8px;
+}
+
+.successMessage p {
+  font-size: 16px;
+  color: #15803d;
+  margin: 0 0 20px;
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 10px 24px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: inherit;
+}
+
+.backLink:hover {
+  background: #1d4ed8;
+}
+
+.errorMessage {
+  text-align: center;
+  color: #dc2626;
+  font-size: 14px;
+  margin: 0;
+}
+
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;

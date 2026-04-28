@@ -50,6 +50,9 @@ export default function Contacts() {
             <div className={styles.successMessage}>
               <h3>Спасибо за заявку!</h3>
               <p>Мы свяжемся с вами в ближайшее время.</p>
+              <button className={styles.backLink} onClick={() => setStatus("idle")}>
+                Отправить ещё одну заявку
+              </button>
             </div>
           ) : (
             <form className={styles.form} onSubmit={handleSubmit}>
