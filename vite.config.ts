@@ -4,4 +4,12 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://pontoon-landing-4ga9hxg37-arlinnkords-projects.vercel.app",
+        changeOrigin: true,
+      },
+    },
+  },
 })
