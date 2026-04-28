@@ -44,19 +44,19 @@ const server = http.createServer(async (req, res) => {
     try {
       const body = await parseBody(req);
       const { createTransport } = await import("nodemailer");
+      // Пароль от почтового ящика на reg.ru — в переменной EMAIL_PASSWORD
       const transporter = createTransport({
-        host: "smtp.yandex.ru",
-        port: 587,
-        secure: false,
-        requireTLS: true,
+        host: "mail.hosting.reg.ru",
+        port: 465,
+        secure: true,
         auth: {
-          user: "magictechflot@yandex.ru",
+          user: "sales@magictechflot.ru",
           pass: process.env.EMAIL_PASSWORD,
         },
       });
       await transporter.sendMail({
-        from: `"${body.name || "Аноним"}" <magictechflot@yandex.ru>`,
-        to: "magictechflot@yandex.ru",
+        from: `"${body.name || "Аноним"}" <sales@magictechflot.ru>`,
+        to: "sales@magictechflot.ru",
         subject: `Сообщение от ${body.name || "Аноним"}`,
         html: `
           <h2>Новое обращение в MagicTechFlot</h2>
