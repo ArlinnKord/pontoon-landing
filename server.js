@@ -47,8 +47,9 @@ const server = http.createServer(async (req, res) => {
       // Пароль от почтового ящика на reg.ru — в переменной EMAIL_PASSWORD
       const transporter = createTransport({
         host: "mail.hosting.reg.ru",
-        port: 465,
-        secure: true,
+        port: 587,
+        secure: false,
+        requireTLS: true,
         auth: {
           user: "sales@magictechflot.ru",
           pass: process.env.EMAIL_PASSWORD,
