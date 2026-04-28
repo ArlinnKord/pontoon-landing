@@ -7,14 +7,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 8080;
 
 const server = http.createServer((req, res) => {
-  // healthcheck
   if (req.url === "/health") {
     res.writeHead(200, { "Content-Type": "text/plain" });
     res.end("OK");
     return;
   }
 
-  // статика из dist
   let filePath = path.join(__dirname, "dist", req.url === "/" ? "index.html" : req.url);
   fs.readFile(filePath, (err, data) => {
     if (err) {
@@ -25,7 +23,7 @@ const server = http.createServer((req, res) => {
     const ext = path.extname(req.url);
     const mime = {
       ".html": "text/html",
-      ".js": "text/javascript", 
+      ".js": "text/javascript",
       ".css": "text/css"
     };
     res.writeHead(200, { "Content-Type": mime[ext] || "text/html" });
@@ -35,8 +33,4 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server started on port ${PORT}`);
-});
-process.on("uncaughtException", (err) => {
-  console.error("Uncaught exception:", err);
-  process.exit(1);
 });
