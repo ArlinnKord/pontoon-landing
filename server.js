@@ -5,6 +5,9 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
+console.log("Booting server.js...");
+console.log("CWD:", process.cwd());
+console.log("PORT:", process.env.PORT);
 const PORT = process.env.PORT || 8080;
 
 // парсинг JSON и form-data
@@ -60,6 +63,6 @@ app.use((req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT} (0.0.0.0)`);
 });
