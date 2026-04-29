@@ -33,33 +33,37 @@ const server = http.createServer(async (req, res) => {
       try {
         const { name, phone, email, message } = JSON.parse(body);
         
-        // Отправляем запрос к Web3Forms
-        const formData = new URLSearchParams();
-        formData.append("access_key", "505f9fcc-ed9b-49d8-a953-088a09352009");
-        formData.append("name", name);
-        formData.append("phone", phone);
-        formData.append("email", email || "");
-        formData.append("message", message || "");
-        formData.append("subject", `Новая заявка с сайта от ${name}`);
-
+        // Отправляем запрос к Web3Forms с правильным JSON форматом
         const response = await fetch("https://api.web3forms.com/submit", {
           method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: formData,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            access_key: "505f9fcc-ed9b-49d8-a953-088a09352009",
+            name: name,
+            phone: phone,
+            email: email || "",
+            message: message || "",
+            subject: `Новая заявка с сайта от ${name}`,
+          }),
         });
 
         const result = await response.json();
 
         if (result.success) {
+          console.log("Email sent successfully");
           res.writeHead(200, { "Content-Type": "application/json" });
           res.end(JSON.stringify({ success: true, message: "Письмо отправлено" }));
         } else {
-          throw new Error("Ошибка отправки");
+          console.error("Web3Forms error:", result);
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ error: result.message || "Ошибка отправки" }));
         }
       } catch (err) {
-        console.error("Email error:", err);
+        console.error("Server error:", err);
         res.writeHead(500, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ error: "Ошибка отправки письма" }));
+        res.end(JSON.stringify({ error: "Внутренняя ошибка сервера" }));
       }
     });
     return;
