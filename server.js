@@ -48,9 +48,12 @@ const server = http.createServer(async (req, res) => {
       // Настройки SMTP для Reg.ru (правильные!)
       const transporter = nodemailer.createTransport({
         host: "mail.hosting.reg.ru",
-        port: 587,
-        secure: false,
-        requireTLS: true,
+        port: 587, // Пробуем использовать порт 587 вместо 465 [citation:1]
+        secure: false, // Для порта 587 secure должен быть false
+        requireTLS: true, // Принудительно требуем TLS (шифрование на этом порту)
+        connectionTimeout: 10000, // Ждём подключения 10 секунд
+        greetingTimeout: 10000, // Ждём приветствие сервера 10 секунд
+        socketTimeout: 20000, // Ждём ответа от сокета 20 секунд
         auth: {
           user: "sales@magictechflot.ru",
           pass: process.env.EMAIL_PASSWORD,
