@@ -21,13 +21,22 @@ export default function Contacts() {
     setStatus("loading");
 
     try {
-      const response = await fetch("/api/send-email", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          access_key: "505f9fcc-ed9b-49d8-a953-088a09352009",
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          message: formData.message,
+          subject: `Новая заявка с сайта от ${formData.name}`,
+        }),
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (result.success) {
         setStatus("success");
         setFormData({ name: "", phone: "", email: "", message: "" });
       } else {
