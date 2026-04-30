@@ -47,7 +47,7 @@ const server = http.createServer(async (req, res) => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            access_key: "ТВОЙ_КЛЮЧ",
+            access_key: "505f9fcc-ed9b-49d8-a953-088a09352009",
             name: name,
             phone: phone,
             email: email || "",
