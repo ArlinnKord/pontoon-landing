@@ -25,7 +25,7 @@ export default function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/kubiki" element={<Pontoons />} />
+          <Route path="/modules" element={<Pontoons />} />
         </Routes>
       </main>
       <Footer />

@@ -23,7 +23,7 @@ export default function Pontoons() {
   return (
     <section className={styles.page}>
       <Container>
-        <h1 className={styles.title}>Модульные пластиковые понтоны</h1>
+        <h1 className={styles.title}>Модули плавучести</h1>
         <p className={styles.subtitle}>
           Мы используем понтонные блоки Magic Float — это модульная система из
           пластиковых кубиков, которые собираются как конструктор. Никакой сварки,

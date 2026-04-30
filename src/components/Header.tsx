@@ -17,7 +17,7 @@ export default function Header() {
       <Container>
         <div className={styles.inner}>
           <Link to="/" className={styles.logo}>
-            Понтонные сооружения
+            Суда технического флота
           </Link>
           <nav>
             <ul className={styles.nav}>
@@ -31,7 +31,7 @@ export default function Header() {
                 </li>
               ))}
               <li>
-                <Link to="/kubiki">О кубиках</Link>
+                <Link to="/modules">Модули плавучести</Link>
               </li>
             </ul>
           </nav>
