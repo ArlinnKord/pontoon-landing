@@ -1,3 +1,4 @@
+import { useLocation, Link } from "react-router-dom";
 import Container from "./Container";
 import styles from "./Header.module.css";
 
@@ -8,18 +9,30 @@ const navLinks = [
 ];
 
 export default function Header() {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
   return (
     <header className={styles.header}>
       <Container>
         <div className={styles.inner}>
-          <span className={styles.logo}>Понтонные сооружения</span>
+          <Link to="/" className={styles.logo}>
+            Понтонные сооружения
+          </Link>
           <nav>
             <ul className={styles.nav}>
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href}>{link.label}</a>
+                  {isHome ? (
+                    <a href={link.href}>{link.label}</a>
+                  ) : (
+                    <a href={"/" + link.href}>{link.label}</a>
+                  )}
                 </li>
               ))}
+              <li>
+                <Link to="/kubiki">О кубиках</Link>
+              </li>
             </ul>
           </nav>
         </div>

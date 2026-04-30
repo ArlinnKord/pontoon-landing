@@ -26,6 +26,7 @@ export default function Contacts() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           access_key: "505f9fcc-ed9b-49d8-a953-088a09352009",
+          from_name: "MagicTechFlot сайт",
           name: formData.name,
           phone: formData.phone,
           email: formData.email,
