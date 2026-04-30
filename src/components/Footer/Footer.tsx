@@ -40,7 +40,7 @@ export default function Footer() {
         </div>
         <hr className={styles.divider} />
         <p className={styles.copyright}>
-          &copy; {year} Понтонные сооружения. Все права защищены.
+          &copy; {year} Суда технического флота. Все права защищены.
         </p>
       </Container>
     </footer>
