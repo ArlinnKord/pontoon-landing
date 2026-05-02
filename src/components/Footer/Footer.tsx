@@ -9,9 +9,9 @@ export default function Footer() {
       <Container>
         <div className={styles.grid}>
           <div>
-            <p className={styles.logo}>Понтонные сооружения</p>
+            <p className={styles.logo}>Суда технического флота</p>
             <p className={styles.description}>
-              Проектирование и установка понтонных сооружений под ключ
+              Проектирование и установка понтонных сооружений и комплексов под ключ
             </p>
           </div>
           <div>
