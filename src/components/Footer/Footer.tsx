@@ -11,7 +11,7 @@ export default function Footer() {
           <div>
             <p className={styles.logo}>Суда технического флота</p>
             <p className={styles.description}>
-              Проектирование и установка понтонных сооружений и комплексов под ключ
+              Проектирование и производство судов на базе модулей плавучести из пнд.
             </p>
           </div>
           <div>
@@ -40,7 +40,7 @@ export default function Footer() {
         </div>
         <hr className={styles.divider} />
         <p className={styles.copyright}>
-          &copy; {year} Суда технического флота. Все права защищены.
+          &copy; {year} Суда технического флота.
         </p>
       </Container>
     </footer>

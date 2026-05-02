@@ -75,10 +75,28 @@ const server = http.createServer(async (req, res) => {
 
   // статика
   let filePath = path.join(__dirname, "dist", req.url === "/" ? "index.html" : req.url);
+
+  // Проверяем, не API ли это (на случай если будут ещё API-роуты)
+  if (req.url.startsWith("/api/")) {
+    res.writeHead(404);
+    res.end("Not found");
+    return;
+  }
+
   fs.readFile(filePath, (err, data) => {
     if (err) {
-      res.writeHead(404);
-      res.end("Not found");
+      // SPA fallback: если файл не найден, отдаём index.html
+      // React Router сам разберётся с роутингом
+      const spaPath = path.join(__dirname, "dist", "index.html");
+      fs.readFile(spaPath, (spaErr, spaData) => {
+        if (spaErr) {
+          res.writeHead(500);
+          res.end("Internal error");
+          return;
+        }
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(spaData);
+      });
       return;
     }
     const ext = path.extname(req.url);
