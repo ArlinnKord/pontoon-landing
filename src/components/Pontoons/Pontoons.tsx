@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import Container from "../Container";
 import styles from "./Pontoons.module.css";
 
@@ -22,6 +23,10 @@ const models: PontoonSpec[] = [
 export default function Pontoons() {
   return (
     <section className={styles.page}>
+      <Helmet>
+        <title>Модули плавучести Magic Float | MagicTechFlot — понтонные блоки из HDPE</title>
+        <meta name="description" content="Модули плавучести Magic Float — пластиковые понтонные блоки для сборки причалов, платформ, переправ. Без сварки и регистрации в ГИМС. Срок службы до 50 лет." />
+      </Helmet>
       <Container>
         <h1 className={styles.title}>Модули плавучести</h1>
         <p className={styles.subtitle}>
