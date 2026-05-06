@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://pontoon-landing-4ga9hxg37-arlinnkords-projects.vercel.app",
+        target: "http://localhost:8080",
         changeOrigin: true,
       },
     },
