@@ -35,6 +35,21 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // API карточек
+  if (req.url === "/api/cards" && req.method === "GET") {
+    const dataPath = path.join(__dirname, "data", "cards.json");
+    fs.readFile(dataPath, "utf-8", (err, data) => {
+      if (err) {
+        res.writeHead(500, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Ошибка загрузки данных" }));
+        return;
+      }
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(data);
+    });
+    return;
+  }
+
   // API отправки письма (ОБЯЗАТЕЛЬНО ВЕРНИ ЭТУ ЧАСТЬ!)
   if (req.url === "/api/send-email" && req.method === "POST") {
     let body = "";
