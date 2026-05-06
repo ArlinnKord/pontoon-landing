@@ -6,6 +6,8 @@ import Services from "./components/Services/Services";
 import Contacts from "./components/Contacts/Contacts";
 import Footer from "./components/Footer/Footer";
 import Pontoons from "./components/Pontoons/Pontoons";
+import Catalog from "./components/Catalog/Catalog";
+import SectionPage from "./components/SectionPage/SectionPage";
 
 function HomePage() {
   return (
@@ -26,6 +28,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/modules" element={<Pontoons />} />
+          <Route path="/catalog" element={<Catalog />} />
+          <Route path="/catalog/:sectionSlug" element={<SectionPage />} />
         </Routes>
       </main>
       <Footer />

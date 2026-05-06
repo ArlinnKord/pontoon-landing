@@ -31,6 +31,9 @@ export default function Header() {
                 </li>
               ))}
               <li>
+                <Link to="/catalog">Каталог судов</Link>
+              </li>
+              <li>
                 <Link to="/modules">Модули плавучести</Link>
               </li>
             </ul>

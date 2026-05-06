@@ -1,0 +1,125 @@
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.topRow,
+.bottomRow {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.topRow {
+  border-bottom: 1px solid #eee;
+}
+
+.photoWrap {
+  flex: 0 0 200px;
+  height: 160px;
+  background: #f5f7fa;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.specs {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 0;
+}
+
+.specItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.specItem dt {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.specItem dd {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.classBadge {
+  display: inline-block;
+  background: #1e3a5f;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin: 0;
+}
+
+.btn {
+  background: #1e3a5f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: fit-content;
+}
+
+.btn:hover {
+  background: #152d4a;
+}
+
+@media (max-width: 640px) {
+  .topRow,
+  .bottomRow {
+    flex-direction: column;
+  }
+
+  .photoWrap {
+    flex: none;
+    width: 100%;
+    height: 180px;
+  }
+}
