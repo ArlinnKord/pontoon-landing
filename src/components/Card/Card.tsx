@@ -1,4 +1,6 @@
+import { useState } from "react";
 import type { Card } from "../../api/useCards";
+import QuestionnaireModal from "../QuestionnaireModal/QuestionnaireModal";
 import styles from "./Card.module.css";
 
 interface Props {
@@ -6,12 +8,7 @@ interface Props {
 }
 
 export default function Card({ card }: Props) {
-  const handleQuestionnaire = () => {
-    // Пока заглушка — будет форма опросного листа позже
-    alert(
-      `Опросный лист для "${card.title}" будет доступен после доработки формы.`
-    );
-  };
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <article className={styles.card}>
@@ -54,11 +51,21 @@ export default function Card({ card }: Props) {
           <span className={styles.classBadge}>{card.class}</span>
           <p className={styles.description}>{card.description}</p>
           <p className={styles.price}>{card.price}</p>
-          <button className={styles.btn} onClick={handleQuestionnaire}>
+          <button
+            className={styles.btn}
+            onClick={() => setShowModal(true)}
+          >
             Заполнить опросный лист
           </button>
         </div>
       </div>
+
+      {showModal && (
+        <QuestionnaireModal
+          card={card}
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </article>
   );
 }
